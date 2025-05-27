@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ariful Islam</title>
+    <style>
+        :root {
+            --primary-glow: #00ffff;
+            --secondary-glow: #ff00ff;
+            --tertiary-glow: #ffff00;
+            --bg-dark: #0a0a0a;
+            --bg-darker: #050505;
+            --text-light: #f0f0f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        @keyframes pulse-glow {
+            0% { text-shadow: 0 0 5px var(--primary-glow); }
+            50% { text-shadow: 0 0 20px var(--primary-glow), 0 0 30px var(--secondary-glow); }
+            100% { text-shadow: 0 0 5px var(--primary-glow); }
+        }
+        
+        @keyframes border-glow {
+            0% { box-shadow: 0 0 5px var(--primary-glow); }
+            50% { box-shadow: 0 0 20px var(--primary-glow), 0 0 30px var(--secondary-glow); }
+            100% { box-shadow: 0 0 5px var(--primary-glow); }
+        }
+        
+        .glow-text {
+            animation: pulse-glow 4s infinite;
+        }
+        
+        .glow-box {
+            animation: border-glow 6s infinite;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 10%;
+            background-color: rgba(10, 10, 10, 0.9);
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-glow);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-glow);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-glow);
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        section {
+            min-height: 100vh;
+            padding: 8rem 10% 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        #home {
+            background: linear-gradient(rgba(5, 5, 5, 0.9), rgba(5, 5, 5, 0.9)), 
+                        url(arif\ big.png);
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+        }
+        
+        .home-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .home-content h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--primary-glow);
+        }
+        
+        .home-content p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: transparent;
+            color: var(--primary-glow);
+            border: 2px solid var(--primary-glow);
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+        
+        .btn:hover {
+            background: var(--primary-glow);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px var(--primary-glow);
+            transform: translateY(-3px);
+        }
+        
+        #about {
+            background-color: var(--bg-darker);
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+        
+        .about-img {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .about-img img {
+            max-width: 100%;
+            border-radius: 10px;
+            border: 3px solid var(--primary-glow);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-glow);
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        #skills {
+            background-color: var(--bg-dark);
+        }
+        
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .skill-card {
+            background-color: rgba(20, 20, 20, 0.7);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-glow);
+            box-shadow: 0 10px 20px rgba(0, 255, 255, 0.2);
+        }
+        
+        .skill-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-glow);
+        }
+        
+        .skill-card h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        #projects {
+            background-color: var(--bg-darker);
+        }
+        
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .project-card {
+            background-color: rgba(20, 20, 20, 0.7);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-glow);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+        }
+        
+        .project-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .project-info {
+            padding: 1.5rem;
+        }
+        
+        .project-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-glow);
+        }
+        
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        #contact {
+            background-color: var(--bg-dark);
+        }
+        
+        .contact-container {
+            display: flex;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-info {
+            flex: 1;
+        }
+        
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-glow);
+        }
+        
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--primary-glow);
+        }
+        
+        .contact-form {
+            flex: 1;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: rgba(20, 20, 20, 0.7);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 5px;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background-color: var(--primary-glow);
+            color: var(--bg-dark);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            box-shadow: 0 0 20px var(--primary-glow);
+            transform: translateY(-3px);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--bg-darker);
+            border-top: 1px solid rgba(0, 255, 255, 0.2);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .social-link {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            color: var(--primary-glow);
+            transform: translateY(-3px);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 5%;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            section {
+                padding: 6rem 5% 2rem;
+            }
+            
+            .home-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .home-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .contact-container {
+                flex-direction: column;
+            }
+            
+            .skills-container {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .home-content h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .skills-container {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <a href="#home" class="logo glow-text">Ariful<span style="color: var(--secondary-glow);">Islam</span></a>
+        <div class="nav-links">
+            <a href="#home" class="glow-text">Home</a>
+            <a href="#about" class="glow-text">About</a>
+            <a href="#skills" class="glow-text">Skills</a>
+            <a href="#projects" class="glow-text">Projects</a>
+            <a href="#contact" class="glow-text">Contact</a>
+        </div>
+    </nav>
+    
+    <section id="home">
+        <div class="home-content">
+            <h1 class="glow-text">Hi, I'm <span style="color: var(--primary-glow);">Arif</span></h1>
+            <h2 class="glow-text">Computer Operator & Programmer</h2>
+            <p class="glow-text">As a dedicated Computer Operator & Programmer, I have developed and maintained efficient computing environments while simultaneously contributing to software and application development. My role combines system-level technical operations with hands-on programming responsibilities, ensuring smooth daily workflows and automation wherever possible.</p>
+            <div>
+                <a href="#projects" class="btn glow-box">View My Work</a>
+                <a href="#contact" class="btn glow-box">Hire Me</a>
+            </div>
+        </div>
+    </section>
+    
+    <section id="about">
+        <h2 class="section-title glow-text">About <span style="color: var(--primary-glow);">Me</span></h2>
+        <div class="about-content">
+            <div class="about-img">
+                <img src="arif about.png" alt="Programmer" class="glow-box" title="Ariful Islam">
+            </div>
+            <div class="about-text">
+                <h3 class="glow-text">Professional Computer Operator & Programmer</h3>
+                <p class="glow-text">I am a results-driven Computer Operator & Programmer with a passion for technology, precision, and performance. With solid experience in managing computer systems and developing software solutions, I bring a balanced blend of operational efficiency and programming expertise. My core strengths include system troubleshooting, automation, database handling, and clean, efficient coding. I enjoy solving real-world problems through logical thinking and smart digital tools — whether that means streamlining internal operations or developing custom applications.</p>
+                <p class="glow-text">I believe in continuous improvement and always strive to learn and adapt to new technologies that enhance productivity and innovation.</p>
+                <div class="btn-container">
+                    <a href="https://www.facebook.com/arifulislam2002ar1425" class="btn glow-box">Facebook ID</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="skills">
+        <h2 class="section-title glow-text">My <span style="color: var(--primary-glow);">Skills</span></h2>
+        <div class="skills-container">
+            <div class="skill-card glow-box">
+                <div class="skill-icon">
+                    <i class="fab fa-python"></i>
+                </div>
+                <h3>Python</h3>
+                <p>Advanced programming and scripting</p>
+            </div>
+            
+            <div class="skill-card glow-box">
+                <div class="skill-icon">
+                    <i class="fab fa-java"></i>
+                </div>
+                <h3>Java</h3>
+                <p>Object-oriented development</p>
+            </div>
+            
+            <div class="skill-card glow-box">
+                <div class="skill-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>C++</h3>
+                <p>System programming</p>
+            </div>
+            
+            <div class="skill-card glow-box">
+                <div class="skill-icon">
+                    <i class="fab fa-html5"></i>
+                </div>
+                <h3>HTML5</h3>
+                <p>Semantic web structure</p>
+            </div>
+            
+            <div class="skill-card glow-box">
+                <div class="skill-icon">
+                    <i class="fab fa-css3-alt"></i>
+                </div>
+                <h3>CSS3</h3>
+                <p>Styling and animations</p>
+            </div>
+            
+            <div class="skill-card glow-box">
+                <div class="skill-icon">
+                    <i class="fab fa-js"></i>
+                </div>
+                <h3>JavaScript</h3>
+                <p>Interactive web applications</p>
+            </div>
+            
+            <div class="skill-card glow-box">
+                <div class="skill-icon">
+                    <i class="fab fa-react"></i>
+                </div>
+                <h3>React</h3>
+                <p>Frontend frameworks</p>
+            </div>
+            
+            <!-- Databases -->
+            <div class="skill-card glow-box">
+                <div class="skill-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h3>MySQL</h3>
+                <p>Database management</p>
+            </div>
+            
+            <!-- Office Tools -->
+            <div class="skill-card glow-box">
+                <div class="skill-icon">
+                    <i class="far fa-file-word"></i>
+                </div>
+                <h3>MS Word</h3>
+                <p>Document processing</p>
+            </div>
+            
+            <div class="skill-card glow-box">
+                <div class="skill-icon">
+                    <i class="far fa-file-excel"></i>
+                </div>
+                <h3>MS Excel</h3>
+                <p>Spreadsheets & analysis</p>
+            </div>
+            
+            <div class="skill-card glow-box">
+                <div class="skill-icon">
+                    <i class="far fa-file-powerpoint"></i>
+                </div>
+                <h3>MS PowerPoint</h3>
+                <p>Presentations</p>
+            </div>
+            
+            <div class="skill-card glow-box">
+                <div class="skill-icon">
+                    <i class="fas fa-sticky-note"></i>
+                </div>
+                <h3>MS OneNote</h3>
+                <p>Digital note-taking</p>
+            </div>
+            
+            <div class="skill-card glow-box">
+                <div class="skill-icon">
+                    <i class="fas fa-keyboard"></i>
+                </div>
+                <h3>Data Entry</h3>
+                <p>Accurate and fast typing</p>
+            </div>
+			
+        </div>
+    </section>
+    
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2 class="section-title glow-text">My <span style="color: var(--primary-glow);">Projects</span></h2>
+        <div class="projects-container">
+            <div class="project-card glow-box">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Project 1" class="project-img">
+                <div class="project-info">
+                    <h3>E-commerce Website</h3>
+                    <p>A full-stack e-commerce platform with React frontend and Node.js backend.</p>
+                    <div class="project-links">
+                        <a href="#" class="btn glow-box">Live Demo</a>
+                        <a href="#" class="btn glow-box">Code</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card glow-box">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Project 2" class="project-img">
+                <div class="project-info">
+                    <h3>Data Analysis Tool</h3>
+                    <p>Python application for processing and visualizing large datasets.</p>
+                    <div class="project-links">
+                        <a href="#" class="btn glow-box">Live Demo</a>
+                        <a href="#" class="btn glow-box">Code</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-card glow-box">
+                <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Project 3" class="project-img">
+                <div class="project-info">
+                    <h3>Office Automation</h3>
+                    <p>Automated reporting system using Excel macros and Python scripts.</p>
+                    <div class="project-links">
+                        <a href="#" class="btn glow-box">Live Demo</a>
+                        <a href="#" class="btn glow-box">Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="contact">
+        <h2 class="section-title glow-text">Contact <span style="color: var(--primary-glow);">Me</span></h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3 class="glow-text">Get In Touch</h3>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt contact-icon"></i>
+                        <p class="glow-text" title="My Location">6B/8, Ajij Mohollah, Mohammadpur, Dhaka-1207 ti</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope contact-icon"></i>
+                        <p class="glow-text" title="My E-mail">arifulislam3419@gmail.com</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone contact-icon" ></i>
+                        <p class="glow-text" title="My Phone Number">+88-01785888134</p>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <label for="name" class="glow-text">Name</label>
+                        <input type="text" id="name" placeholder="Your Name" class="glow-box">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="glow-text">Email</label>
+                        <input type="email" id="email" placeholder="Your Email" class="glow-box">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject" class="glow-text">Subject</label>
+                        <input type="text" id="subject" placeholder="Subject" class="glow-box">
+                    </div>
+                    <div class="form-group">
+                        <label for="message" class="glow-text">Message</label>
+                        <textarea id="message" placeholder="Your Message" class="glow-box"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn glow-box">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="social-links">
+            <a href="https://github.com/mdmasumkhan4679" class="social-link glow-text" target="_blank" title="arifull59923713"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/" class="social-link glow-text" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://x.com/arifull59923713" class="social-link glow-text" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/ariful191425" class="social-link glow-text" target="_blank" title="ariful191425"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p class="glow-text">© 2025 Ariful Islam. All Rights Reserved.</p>
+    </footer>
+    
+    <script>
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= (sectionTop - 300)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        const glowElements = document.querySelectorAll('.glow-text, .glow-box');
+        
+        glowElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                if (element.classList.contains('glow-text')) {
+                    element.style.animation = 'pulse-glow 1s infinite';
+                } else {
+                    element.style.animation = 'border-glow 1s infinite';
+                }
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                if (element.classList.contains('glow-text')) {
+                    element.style.animation = 'pulse-glow 4s infinite';
+                } else {
+                    element.style.animation = 'border-glow 6s infinite';
+                }
+            });
+        });
+        
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! I will get back to you soon.');
+            form.reset();
+        });
+    </script>
+</body>
+</html>
